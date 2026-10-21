@@ -17,14 +17,27 @@
 > 「待核验」含义见 `01-来源与规范.md`：题面、答案、关键步骤已与底本逐条对照；
 > 需要看图才能确定数值的题目已在正文中单独标注。
 
+## 在线查看
+
+- **GitHub Pages（推荐，带公式渲染）**：https://caciniep.github.io/kaoyan-zhenti-jieda/
+- Notion：母页 `2026信息|301+408` 下的两个子页
+- FlowUs：见 `04-发布记录.md` 的直链
+
 ## 目录
 
 ```
 math1/2024/2024-数学一-逐题详解.md   22 题，含第一性考点与易错点
 c408/2019/2019-408-逐题详解.md       47 题，同上
-01-来源与规范.md                     溯源清单、评分口径、状态机
-04-发布记录.md                       三个平台的落地链接
-pipeline/                            可复用脚本（下载 / 渲染 / 抽文本）
+01-来源与规范.md                     溯源清单、抽不到文字的排除理由、状态机
+04-发布记录.md                       三个平台的落地链接与复现命令
+index.html                           Pages 入口（marked + MathJax）
+pipeline/
+  bd_fetch.py      百度网盘 xpan 直连下载（MCP 无下载工具时的通道）
+  bd_bulk.py       批量下载某目录下全部 PDF
+  survey_pdf.py    递归盘点目录 + 文本型/扫描型判定
+  render_pdf.py    判型并渲染 PNG（供逐页读图转录）
+  md2notion.py     Markdown → Notion 原生 block（公式/表格）
+  md2flowus.py     Markdown → FlowUs 页面（官方 markdown 字段）
 ```
 
 ## 为什么只先做两年
