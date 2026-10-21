@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>考研真题逐题详解 · 数学一 / 408</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown.min.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+  body { box-sizing: border-box; max-width: 980px; margin: 0 auto; padding: 24px;
+         font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; }
+  .markdown-body { font-size: 15px; }
+  nav a { margin-right: 14px; }
+  #toc { background:#f6f8fa; border-radius:8px; padding:10px 16px; margin:16px 0; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="#" data-src="math1">数学一 2024（22 题）</a>
+  <a href="#" data-src="c408">408 2019（47 题）</a>
+  <a href="https://github.com/CacinieP/kaoyan-zhenti-jieda">仓库</a>
+</nav>
+<div id="toc"><strong>加载中…</strong></div>
+<article id="content" class="markdown-body">正在加载内容…</article>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+<script>
+const FILES = {
+  math1: 'math1/2024/2024-数学一-逐题详解.md',
+  c408:  'c408/2019/2019-408-逐题详解.md'
+};
+
+async function load(key) {
+  const art = document.getElementById('content');
+  const toc = document.getElementById('toc');
+  art.innerHTML = '加载中…';
+  try {
+    const res = await fetch(FILES[key]);
+    if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
+    const md = await res.text();
+    art.innerHTML = marked.parse(md);
+    // 生成目录
+    const hs = art.querySelectorAll('h2, h3');
+    toc.innerHTML = '<strong>目录</strong><br>' + Array.from(hs).map((h, i) => {
+      h.id = 'h' + Key(i);
+      return `<a href="#${h.id}">${h.textContent}</a>`;
+    }).join(' · ');
+    if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([art]);
+    window.scrollTo(0, 0);
+  } catch (e) {
+    art.innerHTML = `<p style="color:#b00">加载失败：${e.message}</p>
+      <p>若在本地直接双击打开，浏览器会因 file:// 的同源策略拒绝 fetch。
+      请改用 <code>python3 -m http.server</code> 本地起服务，或直接看 GitHub Pages。</p>`;
+  }
+}
+function Key(i){ return i; }
+
+document.querySelectorAll('nav a[data-src]').forEach(a => {
+  a.addEventListener('click', e => { e.preventDefault(); load(a.dataset.src); });
+});
+load(new URLSearchParams(location.search).get('doc') === 'c408' ? 'c408' : 'math1');
+</script>
+</body>
+</html>
