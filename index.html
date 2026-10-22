@@ -21,9 +21,7 @@ window.MathJax = {
 </style>
 </head>
 <body>
-<nav>
-  <a href="#" data-src="math1">数学一 2024（22 题）</a>
-  <a href="#" data-src="c408">408 2019（47 题）</a>
+<nav id="nav">
   <a href="https://github.com/CacinieP/kaoyan-zhenti-jieda">仓库</a>
 </nav>
 <div id="toc"><strong>加载中…</strong></div>
@@ -32,16 +30,28 @@ window.MathJax = {
 <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
 <script>
 const FILES = {
-  math1: 'math1/2024/2024-数学一-逐题详解.md',
-  c408:  'c408/2019/2019-408-逐题详解.md'
+  'math1-2024': ['数学一 2024（22 题）', 'math1/2024/2024-数学一-逐题详解.md'],
+  'c408-2019':  ['408 2019（47 题）',  'c408/2019/2019-408-逐题详解.md'],
+  'c408-2018':  ['408 2018（47 题）',  'c408/2018/2018-408-逐题详解.md'],
+  'c408-2017':  ['408 2017（47 题）',  'c408/2017/2017-408-逐题详解.md'],
+  'c408-2016':  ['408 2016（47 题）',  'c408/2016/2016-408-逐题详解.md']
 };
+
+const nav = document.getElementById('nav');
+Object.keys(FILES).forEach(k => {
+  const a = document.createElement('a');
+  a.href = '?doc=' + k;
+  a.textContent = FILES[k][0];
+  a.dataset.src = k;
+  nav.insertBefore(a, nav.lastElementChild);
+});
 
 async function load(key) {
   const art = document.getElementById('content');
   const toc = document.getElementById('toc');
   art.innerHTML = '加载中…';
   try {
-    const res = await fetch(FILES[key]);
+    const res = await fetch(encodeURI(FILES[key][1]));
     if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
     const md = await res.text();
     art.innerHTML = marked.parse(md);
@@ -52,6 +62,7 @@ async function load(key) {
       return `<a href="#${h.id}">${h.textContent}</a>`;
     }).join(' · ');
     if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([art]);
+    document.title = FILES[key][0] + ' · 考研真题逐题详解';
     window.scrollTo(0, 0);
   } catch (e) {
     art.innerHTML = `<p style="color:#b00">加载失败：${e.message}</p>
@@ -64,7 +75,9 @@ function Key(i){ return i; }
 document.querySelectorAll('nav a[data-src]').forEach(a => {
   a.addEventListener('click', e => { e.preventDefault(); load(a.dataset.src); });
 });
-load(new URLSearchParams(location.search).get('doc') === 'c408' ? 'c408' : 'math1');
+
+const want = new URLSearchParams(location.search).get('doc');
+load(want && FILES[want] ? want : 'math1-2024');
 </script>
 </body>
 </html>
